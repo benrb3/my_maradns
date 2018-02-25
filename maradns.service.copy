@@ -1,0 +1,17 @@
+[Unit]
+Description=MaraDNS secure Domain Name Server (DNS)
+Documentation=man:maradns(8)
+Wants=nss-lookup.target
+Before=nss-lookup.target
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/maradns -f /etc/maradns/mararc
+StandardOutput=syslog
+Restart=always
+RestartSec=10
+StartLimitInterval=400
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target

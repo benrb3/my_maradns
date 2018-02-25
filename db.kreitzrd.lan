@@ -1,0 +1,33 @@
+# The '%' is a wildcard that expands to the domain name + a trailing '.'
+# The domain name is obtained from the mararc file's csv2["..."] directive.
+# Place NS declaration(s) first. Also, you cannot have curly braces in a comment
+# in a domain zone file.
+
+# Basic records
+% SOA % hostmaster@% 1 7200 3600 604800 1800 ~
+% 	NS 	ns1.% ~
+ns1.% 	A 	192.168.1.52 ~
+% 	MX 10 	mail.% ~
+mail.% 		192.168.1.82 ~
+% 		192.168.1.52 ~
+www.% 		192.168.1.52 ~
+eeepc.% 	192.168.1.140 ~
+hp-h8-1039.% 	192.168.1.68 ~
+rpi2.% 		192.168.1.102 ~
+rpi3.% 		192.168.1.103 ~
+bar.% 	CNAME 	foo.% ~
+foo.% 	A 	192.168.1.106 ~
+
+# PTR records
+52.1.168.192.in-addr.arpa.	PTR	ns1.% ~
+52.1.168.192.in-addr.arpa.	PTR	www.% ~
+82.1.168.192.in-addr.arpa.	PTR	mail.% ~
+140.1.168.192.in-addr.arpa.	PTR	eeepc.% ~
+102.1.168.192.in-addr.arpa.	PTR	rpi2.% ~
+103.1.168.192.in-addr.arpa.	PTR	rpi3.% ~
+68.1.168.192.in-addr.arpa.	PTR	hp-h8-1039.% ~
+
+# SPF record
+# Record must be in single quotes and use '\x7e' for tilde ("~" character)
+%	SPF 	'v=spf1 +mx a:mail.kreitzrd.lan/24 '\x7e'all' ~
+#kreitzrd.lan.  IN TXT 'v=spf1 mx a ip4:192.168.1.52/24 '\x7e'all' ~
